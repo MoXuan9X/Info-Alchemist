@@ -1,6 +1,6 @@
 # Info-Alchemist / 信息炼金术士
 
-[官网](https://info.lifereset.me/)
+产品介绍：https://info.lifereset.me
 
 Info-Alchemist 是一个给 AI Agent 用的本地调研能力（Skill）。
 
