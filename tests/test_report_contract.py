@@ -17,6 +17,8 @@ import run_log  # noqa: E402
 import formal_run  # noqa: E402
 import info_alchemist_paths  # noqa: E402
 import record_decision  # noqa: E402
+import setup_config_server  # noqa: E402
+import tavily_search  # noqa: E402
 
 
 VALID_REPORT = "\n".join([
@@ -47,6 +49,53 @@ VALID_REPORT = "\n".join([
 
 
 class ReportContractTest(unittest.TestCase):
+    def test_setup_config_writes_env_values(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            env_path = Path(tmpdir) / ".env"
+            setup_config_server.write_env_values(
+                "tvly-test_123456",
+                True,
+                "tikhub-test-token",
+                path=env_path,
+            )
+            values = setup_config_server.load_env_file(env_path)
+            self.assertEqual(values["TAVILY_API_KEY"], "tvly-test_123456")
+            self.assertEqual(values["INFO_ALCHEMIST_ENABLE_TIKHUB"], "1")
+            self.assertEqual(values["TIKHUB_API_KEY"], "tikhub-test-token")
+            self.assertEqual(values["TIKHUB_PLATFORMS"], "xhs,x,reddit")
+
+    def test_setup_config_rejects_placeholder_tavily_key(self) -> None:
+        self.assertFalse(setup_config_server.is_valid_tavily_key("tvly-YOUR_REAL_KEY"))
+        self.assertFalse(tavily_search.is_valid_tavily_key("tvly-YOUR_REAL_KEY"))
+        self.assertTrue(setup_config_server.is_valid_tavily_key("tvly-real-key"))
+
+    def test_formal_run_returns_setup_required_when_tavily_key_missing(self) -> None:
+        keys = [
+            "TAVILY_API_KEY",
+            "INFO_ALCHEMIST_ENV_FILE",
+            "INFO_ALCHEMIST_DATA_DIR",
+            "INFO_ALCHEMIST_CONFIG_SERVER_DISABLED",
+        ]
+        old_env = {key: os.environ.get(key) for key in keys}
+        try:
+            with tempfile.TemporaryDirectory() as tmpdir:
+                os.environ.pop("TAVILY_API_KEY", None)
+                os.environ["INFO_ALCHEMIST_ENV_FILE"] = str(Path(tmpdir) / ".env")
+                os.environ["INFO_ALCHEMIST_DATA_DIR"] = str(Path(tmpdir) / "data")
+                os.environ["INFO_ALCHEMIST_CONFIG_SERVER_DISABLED"] = "1"
+                payload, exit_code = formal_run.run_formal({"user_query": "查一下 AI 视频站值不值得做？"})
+                self.assertEqual(exit_code, 0)
+                self.assertEqual(payload["route"], "setup_required")
+                self.assertEqual(payload["activation"], "INFO_ALCHEMIST=TRUE")
+                self.assertIn("user_visible_text", payload)
+                self.assertIn("Tavily API key", payload["user_visible_text"])
+        finally:
+            for key, value in old_env.items():
+                if value is None:
+                    os.environ.pop(key, None)
+                else:
+                    os.environ[key] = value
+
     def test_default_artifact_paths_live_under_skill_workspace(self) -> None:
         keys = [
             "INFO_ALCHEMIST_WORKSPACE_DIR",

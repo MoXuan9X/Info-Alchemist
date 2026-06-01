@@ -16,6 +16,7 @@ SCHEMA_VERSION = "info_alchemist_run_log.v1"
 STAGES = {
     "intent",
     "search_plan",
+    "setup",
     "tavily_result",
     "synthesis",
     "pipeline",

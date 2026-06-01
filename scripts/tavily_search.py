@@ -21,6 +21,7 @@ DEFAULT_REQUEST_TIMEOUT_SECONDS = 12
 DEFAULT_QUERY_RETRIES = 1
 DEFAULT_SEARCH_CONCURRENCY = 6
 DEFAULT_STDOUT_TEXT_LIMIT = 240
+PLACEHOLDER_KEY_MARKERS = ("YOUR", "REPLACE", "PASTE", "TODO", "EXAMPLE", "PLACEHOLDER", "这里", "填入")
 REQUEST_OPTION_FIELDS = {
     "topic",
     "time_range",
@@ -222,6 +223,14 @@ def load_dotenv_if_present() -> None:
 
 def tavily_api_url() -> str:
     return os.environ.get("TAVILY_API_URL", DEFAULT_TAVILY_API_URL).strip() or DEFAULT_TAVILY_API_URL
+
+
+def is_valid_tavily_key(value: str) -> bool:
+    key = value.strip()
+    if not key or not key.startswith("tvly-"):
+        return False
+    upper = key.upper()
+    return not any(marker in upper for marker in PLACEHOLDER_KEY_MARKERS)
 
 
 def compact_error_body(body: str) -> str:
@@ -443,7 +452,7 @@ def execute_search(data: Dict[str, Any], run_id: str = "", write_run_log: bool =
         return finish(cached, 0)
 
     api_key = os.environ.get("TAVILY_API_KEY", "").strip()
-    if not api_key or "YOUR_API_KEY" in api_key:
+    if not is_valid_tavily_key(api_key):
         return finish(error_payload("缺少联网搜索 API Key，或仍在使用占位值。请设置环境变量，或在 skill 目录创建 .env。"), 2, "error")
 
     try:

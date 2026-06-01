@@ -48,10 +48,11 @@ python3 scripts/formal_run.py --previous-query "<上一轮原始问题>" --reply
 1. 用户可见第一行只写 `INFO_ALCHEMIST=TRUE`。
 2. 开放集合查询先确认行动目的；研究维度明确不等于决策明确，用户确认前不联网、不报告。
 3. 用户确认后，明确真实决策、候选行动、默认行动和决策边界；如果仍不清楚，最多追问 3 轮。
-4. 搜索计划必须由 `build_search_plan.py` 生成或校验；宿主 AI 可以先提供 `ai_search_plan` 草案，但不能绕过脚本直接搜索。
-5. 公开搜索只能走内部默认搜索脚本；不用 Brave、web_search、web_fetch 或手工网页替代。
-6. 宿主模型根据本轮证据写完整中文报告；内容保持高信号，保留固定章节、关键证据和判断，不为凑篇幅扩写。
-7. 用户看完报告后明确表达决策时，才运行 `record_decision.py` 写轻量记忆。
+4. 如果返回 `route=setup_required`，直接发送 `user_visible_text`，让用户在本地配置页面填写 Tavily API key；不要普通搜索，也不要生成报告。
+5. 搜索计划必须由 `build_search_plan.py` 生成或校验；宿主 AI 可以先提供 `ai_search_plan` 草案，但不能绕过脚本直接搜索。
+6. 公开搜索只能走内部默认搜索脚本；不用 Brave、web_search、web_fetch 或手工网页替代。
+7. 宿主模型根据本轮证据写完整中文报告；内容保持高信号，保留固定章节、关键证据和判断，不为凑篇幅扩写。
+8. 用户看完报告后明确表达决策时，才运行 `record_decision.py` 写轻量记忆。
 
 ## Search / 搜索
 

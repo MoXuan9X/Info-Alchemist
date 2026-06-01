@@ -9,6 +9,7 @@ import build_search_plan
 import clarify_intent
 import resolve_confirmation
 import semantic_router
+import setup_config_server
 import synthesize_tavily_results
 import tavily_search
 from run_log import new_run_id, record_stages
@@ -802,6 +803,39 @@ def report_context(
     }
 
 
+def setup_required_context(
+    plan_output: Dict[str, Any],
+    intent_payload: Dict[str, Any],
+    run_log_path: str,
+) -> Dict[str, Any]:
+    setup = setup_config_server.ensure_setup_server()
+    setup_url = setup.get("url", "")
+    env_path = setup.get("env_path", "")
+    return {
+        "activation": "INFO_ALCHEMIST=TRUE",
+        "route": "setup_required",
+        "allowed_to_search": False,
+        "needs_setup": True,
+        "missing_required_config": ["Tavily API key"],
+        "run_id": plan_output.get("run_id", ""),
+        "run_log_path": run_log_path,
+        "intent": intent_payload,
+        "search_plan": plan_output.get("search_plan", []),
+        "setup": setup,
+        "user_visible_text": (
+            "INFO_ALCHEMIST=TRUE\n\n"
+            "需要先填写 Tavily API key，才能联网生成信息炼金报告。\n\n"
+            f"请打开配置页面：{setup_url}\n\n"
+            "保存后，回到这里重新发送刚才的问题。"
+        ),
+        "agent_instruction": (
+            "直接把 user_visible_text 发给用户，不要生成普通搜索结果。"
+            "用户填完配置后，再用同一个原始问题重新调用 formal_run.py。"
+            f"本地配置文件位置：{env_path}"
+        ),
+    }
+
+
 def run_formal(data: Dict[str, Any]) -> tuple[Dict[str, Any], int]:
     data = apply_confirmation(data)
     user_query = str(data.get("user_query", "")).strip()
@@ -884,6 +918,21 @@ def run_formal(data: Dict[str, Any]) -> tuple[Dict[str, Any], int]:
         ])
         plan_output["run_log_path"] = run_info.get("run_log_path", "")
         return confirmation_payload(data, plan_output, intent_payload, question=question), 0
+
+    if not setup_config_server.has_valid_tavily_key():
+        run_info = record_stages(run_id, [
+            {"stage": "intent", "status": plan_status, "payload": intent_payload},
+            {"stage": "search_plan", "status": "ok", "payload": plan_output},
+            {
+                "stage": "setup",
+                "status": "blocked",
+                "payload": {
+                    "missing_required_config": ["Tavily API key"],
+                    "reason": "首次触发时缺少公开网页搜索配置，先引导用户填写本地配置。",
+                },
+            },
+        ])
+        return setup_required_context(plan_output, intent_payload, run_info.get("run_log_path", "")), 0
 
     search_payload, search_exit = tavily_search.execute_search(plan_output, run_id=run_id, write_run_log=False)
     synthesis = synthesize_tavily_results.synthesize(search_payload)

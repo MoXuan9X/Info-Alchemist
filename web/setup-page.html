@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Info-Alchemist 本地配置</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fffdf7;
+      --paper-deep: #fff8e8;
+      --card: #fffefb;
+      --ink: #111;
+      --muted: #595961;
+      --line: #171717;
+      --gold: #d0a02c;
+      --gold-2: #f6d45f;
+      --gold-soft: #fff1a8;
+      --red: #c83a2f;
+      --green: #23745b;
+      --blue: #285f90;
+      --shadow: rgba(17, 17, 17, .14);
+      --font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12px 12px, rgba(208, 160, 44, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 17, 17, .025) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(17, 17, 17, .025) 1px, transparent 1px),
+        var(--paper);
+      background-size: 24px 24px, 72px 72px, 72px 72px, auto;
+      font-family: var(--font);
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--red);
+      outline-offset: 4px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+      align-items: center;
+      gap: 18px;
+      padding: 0 30px;
+      border-bottom: 3px solid var(--line);
+      background: rgba(255, 253, 247, .94);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border: 3px solid var(--line);
+      border-radius: 11px 13px 10px 12px;
+      background: var(--ink);
+      box-shadow: inset 0 0 0 4px #fff;
+      flex: 0 0 auto;
+    }
+
+    .mark::after {
+      content: "";
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.05;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .nav-pills {
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: min(58vw, 680px);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+      box-shadow: 2px 2px 0 var(--gold);
+    }
+
+    .pill {
+      padding: 8px 12px;
+    }
+
+    .topbar-actions {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100vw - 34px));
+      margin: 0 auto;
+      padding: clamp(26px, 5vw, 52px) 0 64px;
+    }
+
+    .setup-board {
+      position: relative;
+      border: 3px solid var(--line);
+      border-radius: 22px 18px 24px 17px;
+      background: rgba(255, 255, 255, .92);
+      box-shadow: 7px 7px 0 rgba(208, 160, 44, .22), 0 18px 54px var(--shadow);
+      padding: clamp(18px, 3vw, 34px);
+      overflow: hidden;
+    }
+
+    .setup-board::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      bottom: 14px;
+      width: 62px;
+      height: 16px;
+      border-bottom: 3px solid rgba(17, 17, 17, .18);
+      transform: rotate(-9deg);
+      pointer-events: none;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .section-label span:first-child {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--gold);
+      border: 2px solid var(--line);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+      padding: 7px 13px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 3px 3px 0 rgba(208, 160, 44, .55);
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .hero-status span:first-child {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #55c58a;
+      animation: breathing-dot 1.8s ease-in-out infinite;
+    }
+
+    .hero-status span:first-child::after {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 2px solid rgba(85, 197, 138, .28);
+      opacity: .72;
+      animation: breathing-ring 1.8s ease-in-out infinite;
+    }
+
+    @keyframes breathing-dot {
+      0%,
+      100% {
+        transform: scale(.92);
+        box-shadow: 0 0 0 0 rgba(85, 197, 138, .34);
+      }
+
+      50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 6px rgba(85, 197, 138, .16);
+      }
+    }
+
+    @keyframes breathing-ring {
+      0%,
+      100% {
+        transform: scale(.76);
+        opacity: .22;
+      }
+
+      50% {
+        transform: scale(1.18);
+        opacity: .7;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-status span:first-child,
+      .hero-status span:first-child::after {
+        animation: none;
+      }
+    }
+
+    h1 {
+      max-width: 920px;
+      margin-bottom: 18px;
+      font-size: clamp(44px, 6vw, 76px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 800px;
+      margin-bottom: 28px;
+      color: #27272d;
+      font-size: clamp(17px, 1.7vw, 22px);
+      line-height: 1.48;
+      font-weight: 760;
+    }
+
+    .marker {
+      background: linear-gradient(transparent 58%, rgba(246, 212, 95, .82) 0);
+      padding: 0 .08em;
+    }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, .88fr);
+      gap: clamp(16px, 2.4vw, 28px);
+      align-items: start;
+    }
+
+    .config-form,
+    .guide-panel {
+      min-width: 0;
+      border: 3px solid var(--line);
+      border-radius: 24px 19px 27px 18px;
+      background: #fff;
+      box-shadow: 8px 8px 0 rgba(208, 160, 44, .24);
+      padding: clamp(16px, 2vw, 22px);
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, .52fr);
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 2px solid rgba(17, 17, 17, .12);
+    }
+
+    .field-row:first-child {
+      padding-top: 0;
+    }
+
+    .field-row:last-of-type {
+      border-bottom: 0;
+    }
+
+    .field-main label,
+    .toggle-title {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 9px;
+      font-size: 20px;
+      line-height: 1.2;
+      font-weight: 950;
+    }
+
+    .required,
+    .optional {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 950;
+      box-shadow: 2px 2px 0 rgba(17, 17, 17, .1);
+    }
+
+    .required {
+      background: #ffe1d7;
+      color: var(--red);
+    }
+
+    .optional {
+      background: #d9ebff;
+      color: var(--blue);
+    }
+
+    .field-main p,
+    .field-note p,
+    .guide-panel p,
+    .guide-panel li {
+      color: #2f2f35;
+      font-size: 15px;
+      line-height: 1.58;
+    }
+
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 12px;
+      border: 3px solid var(--line);
+      border-radius: 16px 13px 18px 14px;
+      background: #fffdf2;
+      padding: 0 15px;
+      color: var(--ink);
+      font: inherit;
+      font-size: 16px;
+      font-weight: 760;
+      box-shadow: 4px 4px 0 rgba(17, 17, 17, .08);
+    }
+
+    input::placeholder {
+      color: #9a9184;
+    }
+
+    input:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .field-note {
+      border: 2px solid var(--line);
+      border-radius: 16px 14px 18px 13px;
+      background: #fffdf2;
+      padding: 12px;
+      box-shadow: 3px 3px 0 rgba(17, 17, 17, .1);
+    }
+
+    .field-note strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .field-note a {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 8px;
+      border-bottom: 3px solid var(--gold);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-flex;
+      width: 68px;
+      height: 38px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .switch span {
+      position: absolute;
+      inset: 0;
+      border: 3px solid var(--line);
+      border-radius: 999px;
+      background: #f6f0e8;
+      box-shadow: 3px 3px 0 rgba(17, 17, 17, .12);
+      cursor: pointer;
+      transition: background .16s ease;
+    }
+
+    .switch span::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 6px;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      transition: transform .16s ease;
+    }
+
+    .switch input:checked + span {
+      background: var(--gold-soft);
+    }
+
+    .switch input:checked + span::after {
+      transform: translateX(28px);
+      background: var(--gold-2);
+    }
+
+    .social-fields {
+      transition: opacity .16s ease;
+    }
+
+    .social-fields.is-disabled {
+      opacity: .58;
+    }
+
+    .form-footer {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 18px;
+    }
+
+    .button {
+      min-height: 48px;
+      border-width: 3px;
+      padding: 0 20px;
+      background: var(--gold-soft);
+      box-shadow: 4px 4px 0 var(--ink);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .button:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .button:disabled {
+      opacity: .7;
+      cursor: wait;
+    }
+
+    .save-status {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      border: 2px dashed rgba(17, 17, 17, .36);
+      border-radius: 999px;
+      padding: 0 13px;
+      color: #5a3a2f;
+      background: #fff0e6;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .guide-panel {
+      background: #fffdf2;
+    }
+
+    .guide-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .step-list {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step-list li {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      color: #25252b;
+      font-weight: 760;
+    }
+
+    .num {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      background: var(--gold-soft);
+      font-weight: 950;
+      box-shadow: 2px 2px 0 var(--ink);
+      flex: 0 0 auto;
+    }
+
+    .local-note {
+      margin-top: 18px;
+      border: 2px dashed var(--line);
+      border-radius: 15px;
+      background: #fff0e6;
+      padding: 11px 12px;
+      color: #5a3a2f;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 850;
+      word-break: break-word;
+    }
+
+    .local-note strong {
+      color: var(--red);
+      font-weight: 950;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        height: auto;
+        padding: 14px 18px;
+      }
+
+      .nav-pills,
+      .topbar-actions {
+        justify-self: start;
+        max-width: 100%;
+      }
+
+      .setup-grid,
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: clamp(38px, 13vw, 58px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"></div>
+      <div>
+        <strong>Info-Alchemist</strong>
+        <span>本地配置</span>
+      </div>
+    </div>
+    <nav class="nav-pills" aria-label="配置范围">
+      <span class="pill">公开网页搜索</span>
+      <span class="pill">社交平台搜索可选</span>
+      <span class="pill">只保存在本地</span>
+    </nav>
+    <div class="topbar-actions">
+      <a class="pill" href="https://info.lifereset.me" target="_blank" rel="noreferrer">产品介绍</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="setup-board" aria-labelledby="setup-title">
+      <div class="section-label"><span>1</span><span>首次使用配置</span></div>
+      <div class="hero-status"><span aria-hidden="true"></span><strong>Info-Alchemist 已触发，等待搜索配置</strong></div>
+      <h1 id="setup-title">连接 Info-Alchemist 的搜索能力</h1>
+      <p class="lead">
+        先填写 <span class="marker">Tavily API key</span>，Info-Alchemist 才能搜索公开网页。
+        如果你还想查看小红书、X、Reddit 的用户讨论，再打开社交平台搜索。
+      </p>
+
+      <div class="setup-grid">
+        <form class="config-form" id="config-form">
+          <section class="field-row">
+            <div class="field-main">
+              <label for="tavily-key">Tavily API key <span class="required">必填</span></label>
+              <p>用于公开网页搜索，比如官方资料、新闻、竞品页面、定价页和文档。</p>
+              <input id="tavily-key" name="tavily_api_key" type="password" autocomplete="off" placeholder="tvly-..." />
+            </div>
+            <aside class="field-note">
+              <strong>去哪里获取</strong>
+              <p>打开 Tavily 后注册或登录，在 Dashboard / API Keys 里复制以 <strong>tvly-</strong> 开头的 key。</p>
+              <a href="https://app.tavily.com/" target="_blank" rel="noreferrer">打开 Tavily</a>
+            </aside>
+          </section>
+
+          <section class="field-row">
+            <div class="field-main">
+              <div class="switch-row">
+                <div>
+                  <div class="toggle-title">社交平台搜索 <span class="optional">可选</span></div>
+                  <p>打开后会补充小红书、X、Reddit 的用户讨论、抱怨、口碑和社区信号。</p>
+                </div>
+                <label class="switch" aria-label="启用社交平台搜索">
+                  <input id="enable-tikhub" name="enable_tikhub" type="checkbox" />
+                  <span aria-hidden="true"></span>
+                </label>
+              </div>
+            </div>
+            <aside class="field-note">
+              <strong>什么时候打开</strong>
+              <p>当你想判断真实用户怎么讨论、吐槽或比较一个产品时再打开。普通公开网页搜索不需要。</p>
+            </aside>
+          </section>
+
+          <section class="field-row social-fields" id="social-fields">
+            <div class="field-main">
+              <label for="tikhub-key">TikHub API key <span class="optional">打开社交搜索时填写</span></label>
+              <p>用于查小红书、X、Reddit 上的公开讨论和社区信号。</p>
+              <input id="tikhub-key" name="tikhub_api_key" type="password" autocomplete="off" placeholder="TikHub API key" />
+            </div>
+            <aside class="field-note">
+              <strong>去哪里获取</strong>
+              <p>打开 TikHub 后注册或登录，在控制台、API key 或 Token 页面复制密钥。</p>
+              <a href="https://www.tikhub.io/" target="_blank" rel="noreferrer">打开 TikHub</a>
+            </aside>
+          </section>
+
+          <div class="form-footer">
+            <button class="button" type="submit" id="save-button">保存配置</button>
+            <div class="save-status" id="save-status" role="status">填写后点击保存。</div>
+          </div>
+        </form>
+
+        <aside class="guide-panel">
+          <div class="section-label"><span>2</span><span>保存后怎么做</span></div>
+          <h2>回到 AI Agent，重新发送刚才的问题。</h2>
+          <p>保存完成后，不需要重装 Info-Alchemist。回到原来的 AI Agent 对话，重新问刚才那个真实问题即可。</p>
+          <ul class="step-list">
+            <li><span class="num">1</span><span>看到第一行出现 <strong>INFO_ALCHEMIST=TRUE</strong>。</span></li>
+            <li><span class="num">2</span><span>报告里出现核心判断、证据、缺口和下一步行动。</span></li>
+            <li><span class="num">3</span><span>需要社交平台信号时，再回来打开社交平台搜索。</span></li>
+          </ul>
+          <div class="local-note">
+            <strong>本地保存：</strong>
+            配置会写入 <span id="env-path">本地 .env 文件</span>。这个页面只负责保存搜索配置。
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const INITIAL_CONFIG = __CONFIG_JSON__;
+
+    const form = document.querySelector("#config-form");
+    const enableTikHub = document.querySelector("#enable-tikhub");
+    const tikHubInput = document.querySelector("#tikhub-key");
+    const socialFields = document.querySelector("#social-fields");
+    const saveButton = document.querySelector("#save-button");
+    const saveStatus = document.querySelector("#save-status");
+    const envPath = document.querySelector("#env-path");
+
+    envPath.textContent = INITIAL_CONFIG.env_path || "本地 .env 文件";
+    enableTikHub.checked = Boolean(INITIAL_CONFIG.tikhub_enabled);
+
+    if (INITIAL_CONFIG.has_tavily_key) {
+      document.querySelector("#tavily-key").placeholder = "已保存 Tavily API key；如需替换，请输入新的 key";
+    }
+
+    if (INITIAL_CONFIG.has_tikhub_key) {
+      tikHubInput.placeholder = "已保存 TikHub API key；如需替换，请输入新的 key";
+    }
+
+    const syncSocialFields = () => {
+      const enabled = enableTikHub.checked;
+      tikHubInput.disabled = !enabled;
+      socialFields.classList.toggle("is-disabled", !enabled);
+    };
+
+    syncSocialFields();
+    enableTikHub.addEventListener("change", syncSocialFields);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      saveButton.disabled = true;
+      saveStatus.textContent = "正在保存...";
+
+      const payload = {
+        tavily_api_key: document.querySelector("#tavily-key").value.trim(),
+        enable_tikhub: enableTikHub.checked,
+        tikhub_api_key: tikHubInput.value.trim()
+      };
+
+      try {
+        const response = await fetch("/api/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || "保存失败，请检查输入。");
+        }
+        saveStatus.textContent = "配置已保存。回到 AI Agent，重新发送刚才的问题。";
+        document.querySelector("#tavily-key").value = "";
+        tikHubInput.value = "";
+        document.querySelector("#tavily-key").placeholder = "已保存 Tavily API key；如需替换，请输入新的 key";
+        if (enableTikHub.checked) {
+          tikHubInput.placeholder = "已保存 TikHub API key；如需替换，请输入新的 key";
+        }
+      } catch (error) {
+        saveStatus.textContent = error.message || "保存失败，请重试。";
+      } finally {
+        saveButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
