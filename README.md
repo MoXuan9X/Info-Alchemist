@@ -18,7 +18,6 @@ https://github.com/MoXuan9X/Info-Alchemist
 安装完成后，请告诉我：
 1. 是否安装成功
 2. 我需要在哪个文件里填写 Tavily API key
-3. 怎么用一个真实问题确认 Info-Alchemist 已经生效
 ```
 
 安装时，AI Agent 可能会提醒你填写 Tavily API key。Tavily 用于公开网页搜索，比如官方资料、新闻、竞品页面、定价页和文档。
