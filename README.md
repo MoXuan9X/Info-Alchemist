@@ -67,6 +67,7 @@ https://github.com/MoXuan9X/Info-Alchemist
 安装完成后，请告诉我：
 1. 是否安装成功
 2. 我需要在哪个文件里填写 Tavily API key
+3. 你是否已经能读取 Info-Alchemist 的 `SKILL.md`；如果不能，请按 `references/host_integration.md` 接入
 ```
 
 安装时，AI Agent 可能会提醒你填写 Tavily API key。Tavily 用于公开网页搜索，比如官方资料、新闻、竞品页面、定价页和文档。
@@ -139,7 +140,7 @@ INFO_ALCHEMIST=TRUE
 |---|---|
 | AI Agent 说缺少 Tavily API key | 去 https://app.tavily.com/ 获取，然后填进 `.env` |
 | AI Agent 找不到 `.env` 文件 | 让它重新检查 Info-Alchemist 安装位置 |
-| 问测试问题后没有 `INFO_ALCHEMIST=TRUE` | 让 AI Agent 检查它是否已经读取 Info-Alchemist |
+| 问测试问题后没有 `INFO_ALCHEMIST=TRUE` | 让 AI Agent 检查它是否已经读取 `SKILL.md`；如果没有，让它按 `references/host_integration.md` 接入 |
 | AI Agent 直接普通搜索 | 重新发送测试问题，并明确说“用 Info-Alchemist 判断” |
 
 ## 开发者和 Agent 接入
