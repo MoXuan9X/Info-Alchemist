@@ -30,7 +30,9 @@ https://github.com/MoXuan9X/Info-Alchemist
 注意：
 - 不要替我编造 Tavily API key。
 - 如果我还没有 Tavily API key，请让我打开 https://app.tavily.com/ 获取。
-- 第一次安装只需要 Tavily，TikHub 可以先不配置。
+- Tavily 用于公开网页搜索，比如官方资料、新闻、竞品页面、定价页和文档。
+- TikHub 用于社交平台搜索，比如小红书、X 和 Reddit 上的用户讨论、抱怨、口碑和社区信号。
+- 如果我暂时不需要社交平台搜索，请保持 `INFO_ALCHEMIST_ENABLE_TIKHUB=0`，不用填写 TikHub API key。
 - 检查文件成功不等于触发成功。
 - 真正触发成功的标志是：我问真实问题后，你的回复第一行出现 `INFO_ALCHEMIST=TRUE`。
 
@@ -52,7 +54,26 @@ https://github.com/MoXuan9X/Info-Alchemist
 6. 把 key 填到 `TAVILY_API_KEY=` 后面。
 7. 保存文件。
 
-第一次安装可以先不配置 TikHub。等你确认 Info-Alchemist 能正常运行后，再考虑开启社媒补充搜索。
+## Tavily 和 TikHub 分别用于什么
+
+| 配置 | 必填吗 | 用来查什么 | 第一次安装怎么填 |
+|---|---|---|---|
+| `TAVILY_API_KEY` | 必填 | 公开网页搜索：官方资料、新闻、竞品页面、定价页、文档、博客等 | 填入你自己的 `tvly-...` |
+| `INFO_ALCHEMIST_ENABLE_TIKHUB` | 可选 | TikHub 开关 | 不查社交平台时填 `0` |
+| `TIKHUB_API_KEY` | 可选 | 社交平台搜索：小红书、X、Reddit 上的用户讨论、抱怨、口碑和社区信号 | `INFO_ALCHEMIST_ENABLE_TIKHUB=0` 时不用填 |
+
+如果你只想先完成安装和普通网页搜索，保持：
+
+```bash
+INFO_ALCHEMIST_ENABLE_TIKHUB=0
+```
+
+只有当你需要小红书、X、Reddit 这类社交平台信号时，再改成：
+
+```bash
+INFO_ALCHEMIST_ENABLE_TIKHUB=1
+TIKHUB_API_KEY=你的TikHub key
+```
 
 ## 怎么确认成功
 
