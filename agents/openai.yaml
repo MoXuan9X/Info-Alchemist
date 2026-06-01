@@ -1,0 +1,3 @@
+display_name: Info-Alchemist
+short_description: 基于 VOI 的机会调研、信息分流、行动复盘和本地决策记忆。
+default_prompt: 用 Info-Alchemist 判断一个方向值不值得做：先确认真实查询意图，再运行正式入口生成搜索计划、公开证据和证据整理；最终回复第一行输出 INFO_ALCHEMIST=TRUE，并严格使用中文信息炼金报告固定骨架，包含核心判断、决策问题、候选行动、高价值证据、缺失的证据和下一步行动。

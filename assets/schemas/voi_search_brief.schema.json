@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VOI Search Brief",
+  "type": "object",
+  "required": [
+    "query",
+    "inferred_decision",
+    "candidate_actions",
+    "default_action",
+    "decision_boundary",
+    "voi_information_needed",
+    "search_provider",
+    "search_plan",
+    "public_evidence",
+    "final_status",
+    "evidence_gaps",
+    "next_minimum_action",
+    "stop_search_rule",
+    "memory_update"
+  ],
+  "properties": {
+    "query": {
+      "type": "string"
+    },
+    "inferred_decision": {
+      "type": "string"
+    },
+    "candidate_actions": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string"
+      }
+    },
+    "default_action": {
+      "type": "string"
+    },
+    "decision_boundary": {
+      "type": "object",
+      "required": [
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "far_from_decision",
+            "near_decision",
+            "at_boundary",
+            "already_decided"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "voi_information_needed": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "search_provider": {
+      "type": "string",
+      "enum": [
+        "tavily",
+        "tavily+tikhub"
+      ]
+    },
+    "search_plan": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "query",
+          "search_intent",
+          "reason"
+        ],
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "search_intent": {
+            "type": "string",
+            "enum": [
+              "official_capability",
+              "competitor_and_monetization",
+              "user_discussion",
+              "search_intent",
+              "seo_page_type",
+              "api_feasibility",
+              "expert_signal"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "evidence_axis": {
+            "type": "string",
+            "enum": [
+              "",
+              "market",
+              "official",
+              "unit_economics",
+              "competition",
+              "user_pain",
+              "distribution",
+              "risk",
+              "expert"
+            ]
+          },
+          "evidence_role": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "public_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "source",
+          "finding",
+          "decision_impact"
+        ],
+        "properties": {
+          "source": {},
+          "finding": {
+            "type": "string"
+          },
+          "decision_impact": {
+            "type": "string",
+            "enum": [
+              "none",
+              "weak",
+              "medium",
+              "strong"
+            ]
+          },
+          "source_quality": {
+            "type": "string"
+          },
+          "source_type": {
+            "type": "string"
+          },
+          "evidence_axis": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "painful_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "final_status": {
+      "type": "string",
+      "enum": [
+        "kill",
+        "archive",
+        "watch",
+        "probe",
+        "act"
+      ]
+    },
+    "final_status_reason": {
+      "type": "string"
+    },
+    "evidence_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "gap",
+          "type",
+          "why_it_matters",
+          "recommended_channel",
+          "priority"
+        ],
+        "properties": {
+          "gap": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "EVPI",
+              "EVSI"
+            ]
+          },
+          "why_it_matters": {
+            "type": "string"
+          },
+          "recommended_channel": {
+            "type": "string",
+            "enum": [
+              "public_search",
+              "user_interview",
+              "analytics",
+              "GSC",
+              "Clarity",
+              "fake_door",
+              "survey",
+              "manual_test",
+              "internal_data",
+              "waitlist"
+            ]
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "next_minimum_action": {
+      "type": "string"
+    },
+    "stop_search_rule": {
+      "type": "string"
+    },
+    "memory_update": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

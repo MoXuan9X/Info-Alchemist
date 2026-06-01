@@ -1,0 +1,15 @@
+.env
+.env*.local
+.DS_Store
+.vercel/
+__pycache__/
+*.pyc
+.cache/
+memory/runs/*.json
+!memory/runs/.gitkeep
+memory/alchemy_records.jsonl
+memory/personal_voi_profile.md
+web/reports/*.html
+roadshow_ledger.json
+commercial/*.json
+info-alchemist/

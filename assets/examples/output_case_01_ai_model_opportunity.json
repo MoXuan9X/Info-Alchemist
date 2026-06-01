@@ -1,0 +1,140 @@
+{
+  "query": "帮我查一下 GPT-image-2 有没有机会，我想看看要不要做相关工具站。",
+  "inferred_decision": "是否围绕 GPT-image-2 做相关页面或工具站，并投入开发或内容成本。",
+  "candidate_actions": [
+    "直接开发完整工具站",
+    "先做轻量对比页或榜单页",
+    "只写观察内容并等待数据",
+    "暂时归档不做"
+  ],
+  "default_action": "continue_research",
+  "decision_boundary": {
+    "status": "near_decision",
+    "reason": "用户已经把信息查询连接到是否投入工具站，接近资源投入，但还没有足够用户行为证据。"
+  },
+  "voi_information_needed": [
+    "GPT-image-2 是否可通过 API 稳定使用且允许商用",
+    "图像生成相关搜索需求是否有工具或交易意图",
+    "竞品是否已经通过 API、模板、批量处理或 SEO 页面变现",
+    "低成本页面是否能拿到点击、等候名单或体验按钮信号"
+  ],
+  "search_provider": "tavily",
+  "search_plan": [
+    {
+      "query": "GPT-image-2 official API pricing documentation",
+      "search_intent": "official_capability",
+      "reason": "确认官方能力、API、价格、限流和商用限制。"
+    },
+    {
+      "query": "GPT-image-2 API commercial use limits availability",
+      "search_intent": "api_feasibility",
+      "reason": "判断能否真实接入并支撑工具站体验。"
+    },
+    {
+      "query": "GPT-image-2 competitors alternatives pricing",
+      "search_intent": "competitor_and_monetization",
+      "reason": "确认是否已有竞品和变现入口。"
+    },
+    {
+      "query": "GPT-image-2 user reviews complaints reddit product hunt",
+      "search_intent": "user_discussion",
+      "reason": "寻找真实抱怨、替代方案和未满足需求。"
+    },
+    {
+      "query": "GPT-image-2 tutorial how to use comparison",
+      "search_intent": "search_intent",
+      "reason": "判断用户是在找教程、能力解释、工具入口还是替代品。"
+    },
+    {
+      "query": "GPT-image-2 complaints limitations expensive not worth alternatives",
+      "search_intent": "user_discussion",
+      "reason": "查找足以让用户停止投入的反证，例如成本、限制、不稳定、竞品拥挤或用户不买账。"
+    }
+  ],
+  "public_evidence": [
+    {
+      "source": {
+        "title": "OpenAI API model docs: GPT Image 2",
+        "url": "https://developers.openai.com/api/docs/models/gpt-image-2"
+      },
+      "finding": "官方模型页可用于确认模型能力、端点、快照和限流信息；这能先验证技术可行性，但不能证明工具站需求。",
+      "decision_impact": "medium"
+    },
+    {
+      "source": {
+        "title": "OpenAI API image generation guide",
+        "url": "https://platform.openai.com/docs/guides/images/image-generation"
+      },
+      "finding": "官方图像生成文档说明 Image API 和 Responses API 可用于生成或编辑图像；这支持先做 API 可行性验证。",
+      "decision_impact": "medium"
+    },
+    {
+      "source": {
+        "title": "OpenAI API pricing",
+        "url": "https://platform.openai.com/docs/pricing"
+      },
+      "finding": "图像模型成本需要用最新官方价格核算；如果单次生成成本过高，完整工具站应延后，优先做页面和需求验证。",
+      "decision_impact": "medium"
+    },
+    {
+      "source": {
+        "title": "Live public-search competitor and user-discussion queries",
+        "url": "internal://run-search-plan"
+      },
+      "finding": "竞品密度、用户抱怨和 SEO 页面类型需要通过实时公开搜索刷新；静态样例不能替代当前 SERP 和讨论热度。",
+      "decision_impact": "weak"
+    }
+  ],
+  "painful_evidence": [
+    {
+      "finding": "即使官方能力成立，也不等于用户会搜索或愿意使用第三方工具站。",
+      "default_assumption_challenged": "新模型热度会自然转化为工具站流量。",
+      "possible_action_change": "从直接开发工具站改为先做对比页、榜单页或假门按钮。"
+    },
+    {
+      "finding": "如果 API 价格、限流或生成质量不稳定，工具站的毛利和体验可能不成立。",
+      "default_assumption_challenged": "API 可用就值得产品化。",
+      "possible_action_change": "先验证单位成本和失败率，再考虑开发。"
+    }
+  ],
+  "evidence_gaps": [
+    {
+      "gap": "目标关键词是否已有稳定曝光和点击意图。",
+      "type": "EVSI",
+      "why_it_matters": "没有 GSC 或 SERP 点击信号，无法判断 SEO 页面是否值得投入。",
+      "recommended_channel": "GSC",
+      "priority": "high"
+    },
+    {
+      "gap": "用户是否愿意点击体验按钮或加入等候名单。",
+      "type": "EVSI",
+      "why_it_matters": "这比讨论热度更接近真实需求。",
+      "recommended_channel": "fake_door",
+      "priority": "high"
+    },
+    {
+      "gap": "单位生成成本、限流和失败率是否能支撑工具站。",
+      "type": "EVPI",
+      "why_it_matters": "如果成本或限制不成立，完整开发应停止或降级。",
+      "recommended_channel": "manual_test",
+      "priority": "high"
+    }
+  ],
+  "final_status": "probe",
+  "final_status_reason": "公开证据足以支持低成本验证，但存在高优先级证据缺口，因此不能直接执行。",
+  "next_minimum_action": "先做一个轻量对比页或榜单页，加体验按钮或等候名单，并记录按钮点击率、邮箱数和搜索曝光。",
+  "stop_search_rule": "如果已经确认 API 基本可用，并拿到 7 天 GSC 曝光/点击或至少 20 个假门验证访客行为样本，就停止继续泛搜，改为复盘小范围验证数据。",
+  "memory_update": {
+    "date": "2026-05-13",
+    "user_query": "帮我查一下 GPT-image-2 有没有机会，我想看看要不要做相关工具站。",
+    "trigger_reason_type": "fomo",
+    "trigger_reason_note": "看到新图像模型和工具站机会，担心错过 SEO 或产品窗口。",
+    "decision_context": "是否围绕 GPT-image-2 做相关页面或工具站，并投入开发或内容成本。",
+    "default_action": "continue_research",
+    "final_status": "probe",
+    "key_evidence": "公开证据能降低技术可行性不确定性，但搜索需求、转化意图和用户愿付仍不能由公开搜索直接证明。",
+    "next_action": "先做轻量对比页或榜单页，加体验按钮或等候名单，不直接开发完整工具站。",
+    "insight": "用户可能容易把新模型热度快速联想到工具站机会，但真正改变行动的是搜索意图和低成本转化信号。",
+    "confidence": "medium"
+  }
+}

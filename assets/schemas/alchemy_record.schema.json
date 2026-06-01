@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Alchemy Record",
+  "type": "object",
+  "required": [
+    "date",
+    "user_query",
+    "trigger_reason_type",
+    "decision_context",
+    "default_action",
+    "final_status",
+    "key_evidence",
+    "next_action",
+    "insight"
+  ],
+  "properties": {
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "user_query": {
+      "type": "string"
+    },
+    "trigger_reason_type": {
+      "type": "string",
+      "enum": [
+        "fomo",
+        "money_signal",
+        "competitor_signal",
+        "authority_signal",
+        "user_need_signal",
+        "efficiency_signal",
+        "curiosity",
+        "anxiety",
+        "other"
+      ]
+    },
+    "trigger_reason_note": {
+      "type": "string"
+    },
+    "decision_context": {
+      "type": "string"
+    },
+    "default_action": {
+      "type": "string"
+    },
+    "final_status": {
+      "type": "string",
+      "enum": [
+        "kill",
+        "archive",
+        "watch",
+        "probe",
+        "act"
+      ]
+    },
+    "key_evidence": {
+      "type": "string"
+    },
+    "evidence_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "title",
+          "url"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "decision_turning_point": {
+      "type": "string"
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "insight": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

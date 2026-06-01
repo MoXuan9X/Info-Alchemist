@@ -1,0 +1,58 @@
+{
+  "classify_intent": [
+    {
+      "input": "帮我查一下 GPT-image-2 有没有机会，我想看看要不要做相关工具站。",
+      "expected_intent_type": "opportunity_research",
+      "expected_trigger_level": "full"
+    },
+    {
+      "input": "把这段英文翻译成中文。",
+      "expected_intent_type": "non_applicable",
+      "expected_trigger_level": "none"
+    },
+    {
+      "input": "这是我这周看到的 12 条 AI 信息，我感觉都重要，但不知道哪些该做。",
+      "expected_intent_type": "information_pile",
+      "expected_trigger_level": "full"
+    },
+    {
+      "input": "帮我查询哪些 AI 视频站值得参考",
+      "expected_intent_type": "open_set_research",
+      "expected_trigger_level": "clarify"
+    },
+    {
+      "input": "帮我查询哪些 AI 图片站值得参考，重点看 SEO 和付费模式",
+      "expected_intent_type": "open_set_research",
+      "expected_trigger_level": "clarify"
+    },
+    {
+      "input": "查一下上海今天的天气",
+      "expected_intent_type": "direct_lookup",
+      "expected_trigger_level": "direct"
+    }
+  ],
+  "validate_examples": [
+    "assets/examples/output_case_01_ai_model_opportunity.json",
+    "assets/examples/alchemy_record_case_01.json"
+  ],
+  "resolve_confirmation": [
+    {
+      "input": "想知道 1 和 3",
+      "query": "帮我查询哪些 AI 视频站值得参考",
+      "expected_confirmed_intent_type": "reference_multi_dimension",
+      "expected_allowed_to_search": true
+    },
+    {
+      "input": "我主要想参考首页、新用户流程，也想看关键词和内链结构",
+      "query": "帮我查询哪些 AI 视频站值得参考",
+      "expected_confirmed_intent_type": "reference_multi_dimension",
+      "expected_allowed_to_search": false
+    },
+    {
+      "input": "我是想从 0 判断要不要做一个新工具站",
+      "query": "帮我查询哪些 AI 图片站值得参考，重点看 SEO 和付费模式",
+      "expected_confirmed_intent_type": "reference_multi_dimension",
+      "expected_allowed_to_search": true
+    }
+  ]
+}
