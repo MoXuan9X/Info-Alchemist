@@ -547,6 +547,17 @@ class ReportContractTest(unittest.TestCase):
         self.assertIn("evidence-table", html)
         self.assertIn("<col style=\"width:34%\">", html)
 
+    def test_pdf_source_markdown_link_renders_when_label_has_brackets(self) -> None:
+        source = "[[PDF] 三年蛰伏，充电桩开启第二春](https://pdf.dfcfw.com/pdf/H3_AP202405101632817061_1.pdf)"
+        html = render_html_report.inline_markdown(source)
+        self.assertIn(
+            '<a href="https://pdf.dfcfw.com/pdf/H3_AP202405101632817061_1.pdf"',
+            html,
+        )
+        self.assertIn(">[PDF] 三年蛰伏，充电桩开启第二春</a>", html)
+        self.assertNotIn("[[PDF]", html)
+        self.assertEqual(render_html_report.plain_text(source), "[PDF] 三年蛰伏，充电桩开启第二春")
+
     def test_build_html_uses_visual_screens_not_markdown_body(self) -> None:
         html = render_html_report.build_html(VALID_REPORT, "unit-report", "http://127.0.0.1:8765/unit-report.html")
         self.assertIn("sketch-board", html)

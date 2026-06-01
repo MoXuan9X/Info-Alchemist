@@ -23,7 +23,8 @@ REPORT_LINK_LABEL = "点击查看->可视化《信息炼金报告》"
 REPORT_LINK_RE = re.compile(
     rf"^\[(?:查看完整 HTML 可视化报告|{re.escape(REPORT_LINK_LABEL)})\]\((?:https?://[^)\s]+|file://[^)\s]+)\)\s*$"
 )
-LINK_RE = re.compile(r"\[([^\]\n]{1,180})\]\((https?://[^)\s]+|file://[^)\s]+)\)")
+LINK_LABEL_PATTERN = r"(?:[^\[\]\n]|\[[^\[\]\n]{0,80}\]){1,240}"
+LINK_RE = re.compile(rf"\[({LINK_LABEL_PATTERN})\]\((https?://[^)\s]+|file://[^)\s]+)\)")
 SECTION_ANCHORS = {
     "核心判断": "core",
     "决策问题": "question",
